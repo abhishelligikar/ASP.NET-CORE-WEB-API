@@ -1,0 +1,11 @@
+C:\Users\AbhishekK\source\repos\ASPCoreWebAPI\ASPCoreWebAPI\bin\Debug\netcoreapp2.0\ASPCoreWebAPI.deps.json
+C:\Users\AbhishekK\source\repos\ASPCoreWebAPI\ASPCoreWebAPI\bin\Debug\netcoreapp2.0\ASPCoreWebAPI.runtimeconfig.json
+C:\Users\AbhishekK\source\repos\ASPCoreWebAPI\ASPCoreWebAPI\bin\Debug\netcoreapp2.0\ASPCoreWebAPI.runtimeconfig.dev.json
+C:\Users\AbhishekK\source\repos\ASPCoreWebAPI\ASPCoreWebAPI\bin\Debug\netcoreapp2.0\ASPCoreWebAPI.dll
+C:\Users\AbhishekK\source\repos\ASPCoreWebAPI\ASPCoreWebAPI\obj\Debug\netcoreapp2.0\ASPCoreWebAPI.csprojAssemblyReference.cache
+C:\Users\AbhishekK\source\repos\ASPCoreWebAPI\ASPCoreWebAPI\obj\Debug\netcoreapp2.0\ASPCoreWebAPI.csproj.CoreCompileInputs.cache
+C:\Users\AbhishekK\source\repos\ASPCoreWebAPI\ASPCoreWebAPI\obj\Debug\netcoreapp2.0\ASPCoreWebAPI.AssemblyInfoInputs.cache
+C:\Users\AbhishekK\source\repos\ASPCoreWebAPI\ASPCoreWebAPI\obj\Debug\netcoreapp2.0\ASPCoreWebAPI.AssemblyInfo.cs
+C:\Users\AbhishekK\source\repos\ASPCoreWebAPI\ASPCoreWebAPI\bin\Debug\netcoreapp2.0\ASPCoreWebAPI.pdb
+C:\Users\AbhishekK\source\repos\ASPCoreWebAPI\ASPCoreWebAPI\obj\Debug\netcoreapp2.0\ASPCoreWebAPI.dll
+C:\Users\AbhishekK\source\repos\ASPCoreWebAPI\ASPCoreWebAPI\obj\Debug\netcoreapp2.0\ASPCoreWebAPI.pdb
