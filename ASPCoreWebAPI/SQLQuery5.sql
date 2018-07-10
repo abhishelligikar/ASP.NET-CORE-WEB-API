@@ -1,10 +1,10 @@
-﻿CREATE TABLE USERS(
+CREATE TABLE USERS(
 Id int IDENTITY(1,1) PRIMARY KEY NOT NULL,
 Name NVARCHAR(MAX) NULL,
 EmailId NVARCHAR(200) NULL,
 Mobile NVARCHAR(20) NULL,
 Address NVARCHAR(MAX),
-IsActive BIT
+IsActive BIT NOT NULL
 )
 
 ALTER TABLE USERS
@@ -15,20 +15,34 @@ INSERT INTO USERS VALUES ('Aditya','adi123kulkarni@gmail.com','2354678910','Ram 
 
 SELECT * FROM USERS
 
-CREATE PROCEDURE SaveUsers  
+CREATE PROCEDURE SaveUser  
 (    
 @Name NVARCHAR(MAX),  
 @EmailId NVARCHAR(MAX),  
 @Mobile NVARCHAR(20),  
 @Address NVARCHAR(MAX),  
-@IsActive BIT  
+@IsActive BIT,
+@ReturnCode NVARCHAR(20) OUTPUT  
 )  
 AS  
 BEGIN  
    SET NOCOUNT ON;
    BEGIN TRY
-		SET @IsActive = 0
-		INSERT INTO USERS VALUES (@Name,@EmailId,@Mobile,@Address,@IsActive)
+		IF EXISTS (SELECT 1 FROM USERS WHERE Mobile = @Mobile)
+		BEGIN
+			SET @ReturnCode = 'C202'
+			RETURN
+		END
+		IF EXISTS (SELECT 1 FROM USERS WHERE EmailId = @EmailId)
+		BEGIN
+			SET @ReturnCode = 'C201'  
+            RETURN 
+		END
+		ELSE
+		BEGIN
+			INSERT INTO Users (Name,EmailId,Mobile,Address,IsActive) VALUES (@Name,@EmailId,@Mobile,@Address,1)  
+			SET @ReturnCode = 'C200'  
+		END
    END TRY
 
    BEGIN CATCH
@@ -41,10 +55,10 @@ BEGIN
 		RAISERROR(@ERRORSTATE,@ERRORSEVERITY,@ERRORMESSAGE)
    END CATCH
 
-END  
+END 
 
-EXEC SaveUsers 'Anjana','anjanakulkarni@gmail.com','3654789201','Ram Mandir Gulbarga',0
-EXEC SaveUsers 'fdsfsdf','sdfdf@gmail.com','3213213332','Ram Gulbarga',0
+EXEC SaveUsers 'Anjana','anjanakulkarni@gmail.com','3654789201','Ram Mandir Gulbarga',0,'cs200'
+EXEC SaveUsers 'fdsfsdf','sdfdf@gmail.com','3213213332','Ram Gulbarga',0,'cs201'
 
 
 CREATE PROCEDURE GetUsers 
@@ -71,29 +85,38 @@ EXEC GetUsers
 
 CREATE PROCEDURE DeleteUser  
 ( 
-@Id INT
+@Id INT,
+@ReturnCode NVARCHAR(20) OUTPUT 
 )  
 AS  
 BEGIN  
-    SET NOCOUNT ON; 
+    SET NOCOUNT ON;  
+    SET @ReturnCode = 'C200'
 	BEGIN TRY
-    IF EXISTS (SELECT 1 FROM Users WHERE Id = @Id)  
+    IF NOT EXISTS (SELECT 1 FROM Users WHERE Id = @Id)  
     BEGIN  
-        DELETE FROM Users WHERE Id = @Id;
+        SET @ReturnCode ='C203'  
+        RETURN
     END
+	ELSE
+	BEGIN
+		DELETE FROM Users WHERE Id = @Id  
+        	SET @ReturnCode = 'C200'  
+        	RETURN
+	END
 	END TRY
 	BEGIN CATCH
 		DECLARE @ERRORSTATE INT,
-				@ERRORSEVERITY INT,
-				@ERRORMESSAGE NVARCHAR(MAX)
-		SELECT @ERRORSTATE = ERROR_STATE(),
-			   @ERRORSEVERITY = ERROR_SEVERITY(),
-			   @ERRORMESSAGE = ERROR_MESSAGE()
+			@ERRORSEVERITY INT,
+			@ERRORMESSAGE NVARCHAR(MAX)
+		SELECT  @ERRORSTATE = ERROR_STATE(),
+			@ERRORSEVERITY = ERROR_SEVERITY(),
+			@ERRORMESSAGE = ERROR_MESSAGE()
 		RAISERROR(@ERRORSTATE,@ERRORSEVERITY,@ERRORMESSAGE)
-   END CATCH
-END 
+   	END CATCH
+END
 
-EXEC DeleteUser 3;
+EXEC DeleteUser 8,'cs201'
 
 
 CREATE PROCEDURE UpdateUsers  
@@ -103,7 +126,8 @@ CREATE PROCEDURE UpdateUsers
 @EmailId NVARCHAR(MAX),  
 @Mobile NVARCHAR(20),  
 @Address NVARCHAR(MAX),  
-@IsActive BIT  
+@IsActive BIT,
+@ReturnCode NVARCHAR(20) OUTPUT 
 )  
 AS  
 BEGIN  
@@ -117,6 +141,8 @@ BEGIN
 			Address = @Address,
 			IsActive = @IsActive
 		WHERE Id = @Id
+		SET @ReturnCode = 'C200'
+		RETURN
    END TRY
 
    BEGIN CATCH
@@ -131,4 +157,4 @@ BEGIN
 
 END
 
-EXEC UpdateUsers 8,'SATISH A K','satishshelligikar@gmail.com','4567829870','Ram Mandir Gulbarga',0
+EXEC UpdateUsers 8,'SATISH KULKARNI','satishshelligikar@gmail.com','1234567890','RAM MANDIR GULBARGA',0,'cs201'
